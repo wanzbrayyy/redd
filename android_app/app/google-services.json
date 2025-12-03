@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "761880673454",
+    "project_id": "wanzofc-cf3f1",
+    "storage_bucket": "wanzofc-cf3f1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:761880673454:android:b042a5fdd64e134bee013f",
+        "android_client_info": {
+          "package_name": "com.redrak.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjMkQj-fx2w1kzSxaIdRA1mKF-zK2ncfQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

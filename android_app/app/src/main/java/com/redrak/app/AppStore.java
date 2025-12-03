@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 
 public class AppStore {
     private static AppStore instance;
-    private SharedPreferences prefs;
+    private final SharedPreferences prefs;
 
     private AppStore(Context context) {
         prefs = context.getApplicationContext().getSharedPreferences("APP_PREFS", Context.MODE_PRIVATE);

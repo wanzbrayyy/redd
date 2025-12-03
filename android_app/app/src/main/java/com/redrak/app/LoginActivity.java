@@ -5,13 +5,13 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import com.google.android.material.button.MaterialButton;
 import org.json.JSONObject;
 import java.io.IOException;
 import okhttp3.Call;
@@ -24,7 +24,7 @@ import okhttp3.Response;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText etEmail, etPassword;
-    private Button btnLogin;
+    private MaterialButton btnLogin;
     private ProgressBar progressBar;
     private OkHttpClient client;
 
@@ -102,7 +102,7 @@ public class LoginActivity extends AppCompatActivity {
                         AppStore.getInstance(LoginActivity.this).setToken(token);
                         AppStore.getInstance(LoginActivity.this).setProfile(profile.toString());
 
-                        startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
+                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         finish();
                     } catch (Exception e) {
                         showError("Failed to parse server response.");

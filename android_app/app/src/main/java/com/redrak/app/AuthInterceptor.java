@@ -1,7 +1,6 @@
 package com.redrak.app;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import androidx.annotation.NonNull;
 import java.io.IOException;
 import okhttp3.Interceptor;
@@ -12,7 +11,7 @@ public class AuthInterceptor implements Interceptor {
     private final Context context;
 
     public AuthInterceptor(Context context) {
-        this.context = context;
+        this.context = context.getApplicationContext();
     }
 
     @NonNull

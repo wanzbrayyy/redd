@@ -97,7 +97,7 @@ public class RegisterActivity extends AppCompatActivity {
                         AppStore.getInstance(RegisterActivity.this).setToken(token);
                         AppStore.getInstance(RegisterActivity.this).setProfile(profile.toString());
                         
-                        startActivity(new Intent(RegisterActivity.this, DashboardActivity.class));
+                        startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                         finishAffinity();
                     } catch (Exception e) {
                         showError("Failed to parse server response.");

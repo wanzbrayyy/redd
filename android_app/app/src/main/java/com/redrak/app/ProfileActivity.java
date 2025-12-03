@@ -12,21 +12,17 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
 import coil.Coil;
 import coil.request.ImageRequest;
 import okhttp3.Call;
@@ -52,8 +48,10 @@ public class ProfileActivity extends AppCompatActivity {
         result -> {
             if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
                 Uri imageUri = result.getData().getData();
-                ivProfileAvatar.setImageURI(imageUri);
-                uploadAvatar(imageUri);
+                if(imageUri != null) {
+                    ivProfileAvatar.setImageURI(imageUri);
+                    uploadAvatar(imageUri);
+                }
             }
         }
     );
@@ -116,7 +114,7 @@ public class ProfileActivity extends AppCompatActivity {
                                 ImageRequest imageRequest = new ImageRequest.Builder(ProfileActivity.this)
                                         .data(avatarUrl)
                                         .target(ivProfileAvatar)
-                                        .error(R.drawable.ic_profile_default)
+                                        .error(R.drawable.ic_face)
                                         .build();
                                 Coil.imageLoader(ProfileActivity.this).enqueue(imageRequest);
                             }
@@ -226,16 +224,17 @@ public class ProfileActivity extends AppCompatActivity {
     private File getFileFromUri(Uri uri) {
         try {
             InputStream inputStream = getContentResolver().openInputStream(uri);
+            if(inputStream == null) return null;
             File tempFile = File.createTempFile("avatar", ".jpg", getCacheDir());
             tempFile.deleteOnExit();
-            OutputStream out = new FileOutputStream(tempFile);
-            byte[] buffer = new byte[1024];
-            int read;
-            while ((read = inputStream.read(buffer)) != -1) {
-                out.write(buffer, 0, read);
+            try (OutputStream out = new FileOutputStream(tempFile)) {
+                byte[] buffer = new byte[1024];
+                int read;
+                while ((read = inputStream.read(buffer)) != -1) {
+                    out.write(buffer, 0, read);
+                }
+                out.flush();
             }
-            out.flush();
-            out.close();
             inputStream.close();
             return tempFile;
         } catch (IOException e) {

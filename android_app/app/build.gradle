@@ -1,19 +1,17 @@
 plugins {
     id 'com.android.application'
+    id 'com.google.gms.google-services'
 }
-
 android {
     namespace "com.redrak.app"
     compileSdk 34
-
     defaultConfig {
         applicationId "com.redrak.app"
-        minSdk 21
+        minSdk 24
         targetSdk 34
         versionCode 1
         versionName "1.0"
     }
-
     signingConfigs {
         release {
             if (project.hasProperty('RELEASE_STORE_FILE')) {
@@ -24,7 +22,6 @@ android {
             }
         }
     }
-
     buildTypes {
         release {
             minifyEnabled false
@@ -32,24 +29,26 @@ android {
             signingConfig signingConfigs.release
         }
     }
-
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    buildFeatures {
+        viewBinding true
     }
 }
-
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.7.0'
-    implementation 'androidx.annotation:annotation:1.7.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'com.google.android.material:material:1.12.0'
-    
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.10"
-    
     implementation 'com.squareup.okhttp3:okhttp:4.12.0'
-    implementation 'com.squareup.okio:okio:3.4.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.12.0'
-
+    implementation 'com.squareup.okio:okio:3.4.0'
     implementation 'io.coil-kt:coil:2.5.0'
+    implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
+    implementation platform('com.google.firebase:firebase-bom:32.4.0')
+    implementation 'com.google.firebase:firebase-messaging'
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'commons-net:commons-net:3.10.0'
 }

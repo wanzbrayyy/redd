@@ -1,0 +1,27 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+  <style name="Theme.RedrakApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <item name="colorPrimary">@color/red_primary</item>
+    <item name="colorPrimaryVariant">@color/red_dark</item>
+    <item name="colorOnPrimary">@color/dark_text_primary</item>
+    <item name="colorSecondary">@color/red_accent</item>
+    <item name="colorSecondaryVariant">@color/red_accent</item>
+    <item name="colorOnSecondary">@color/dark_text_primary</item>
+    <item name="android:statusBarColor">@color/dark_background</item>
+    <item name="android:windowBackground">@color/dark_background</item>
+    <item name="android:textColor">@color/dark_text_primary</item>
+    <item name="android:textColorHint">@color/dark_text_secondary</item>
+    <item name="colorSurface">@color/dark_surface</item>
+    <item name="textInputStyle">@style/Widget.App.TextInputLayout</item>
+    <item name="materialButtonStyle">@style/Widget.App.Button</item>
+  </style>
+
+  <style name="Widget.App.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+    <item name="boxStrokeColor">@color/red_accent</item>
+    <item name="hintTextColor">@color/red_accent</item>
+  </style>
+
+  <style name="Widget.App.Button" parent="Widget.MaterialComponents.Button">
+    <item name="backgroundTint">@color/red_primary</item>
+    <item name="android:textColor">@color/dark_text_primary</item>
+  </style>
+</resources>

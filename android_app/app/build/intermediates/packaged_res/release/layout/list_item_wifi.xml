@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="8dp"
+    android:layout_marginVertical="4dp"
+    app:cardBackgroundColor="@color/dark_surface"
+    app:cardCornerRadius="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/tvSsid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SSID"
+            android:textAppearance="?attr/textAppearanceHeadline6"
+            android:textColor="@color/red_primary"/>
+
+        <TextView
+            android:id="@+id/tvBssid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BSSID: 00:00:00:00:00:00"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/dark_text_secondary" />
+
+        <TextView
+            android:id="@+id/tvStrength"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Strength: -50 dBm | Channel: 6"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/dark_text_secondary" />
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:gravity="end">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDeauth"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/ic_deauth"/>
+                
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnEvilTwin"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/ic_evil_twin"/>
+        </LinearLayout>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

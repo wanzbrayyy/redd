@@ -1,0 +1,146 @@
+[
+    {
+        "merged": "com.redrak.app-merged_res-40:/layout_fragment_network.xml.flat",
+        "source": "com.redrak.app-main-41:/layout/fragment_network.xml"
+    },
+    {
+        "merged": "com.redrak.app-merged_res-40:/drawable_ic_logo_redrak.xml.flat",
+        "source": "com.redrak.app-main-41:/drawable/ic_logo_redrak.xml"
+    },
+    {
+        "merged": "com.redrak.app-merged_res-40:/drawable_ic_sniff.xml.flat",
+        "source": "com.redrak.app-main-41:/drawable/ic_sniff.xml"
+    },
+    {
+        "merged": "com.redrak.app-merged_res-40:/layout_fragment_tools.xml.flat",
+        "source": "com.redrak.app-main-41:/layout/fragment_tools.xml"
+    },
+    {
+        "merged": "com.redrak.app-merged_res-40:/drawable_ic_logout.xml.flat",
+        "source": "com.redrak.app-main-41:/drawable/ic_logout.xml"
+    },
+    {
+        "merged": "com.redrak.app-merged_res-40:/layout_list_item_wifi.xml.flat",
+        "source": "com.redrak.app-main-41:/layout/list_item_wifi.xml"
+    },
+    {
+        "merged": "com.redrak.app-merged_res-40:/drawable_ic_deauth.xml.flat",
+        "source": "com.redrak.app-main-41:/drawable/ic_deauth.xml"
+    },
+    {
+        "merged": "com.redrak.app-merged_res-40:/color_bottom_nav_color_selector.xml.flat",
+        "source": "com.redrak.app-main-41:/color/bottom_nav_color_selector.xml"
+    },
+    {
+        "merged": "com.redrak.app-merged_res-40:/menu_main_menu.xml.flat",
+        "source": "com.redrak.app-main-41:/menu/main_menu.xml"
+    },
+    {
+        "merged": "com.redrak.app-merged_res-40:/drawable_ic_launcher_background.xml.flat",
+        "source": "com.redrak.app-main-41:/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "com.redrak.app-merged_res-40:/layout_activity_register.xml.flat",
+        "source": "com.redrak.app-main-41:/layout/activity_register.xml"
+    },
+    {
+        "merged": "com.redrak.app-merged_res-40:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "com.redrak.app-main-41:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "com.redrak.app-merged_res-40:/drawable_ic_search.xml.flat",
+        "source": "com.redrak.app-main-41:/drawable/ic_search.xml"
+    },
+    {
+        "merged": "com.redrak.app-merged_res-40:/layout_activity_profile.xml.flat",
+        "source": "com.redrak.app-main-41:/layout/activity_profile.xml"
+    },
+    {
+        "merged": "com.redrak.app-merged_res-40:/layout_list_item_simple.xml.flat",
+        "source": "com.redrak.app-main-41:/layout/list_item_simple.xml"
+    },
+    {
+        "merged": "com.redrak.app-merged_res-40:/layout_activity_main.xml.flat",
+        "source": "com.redrak.app-main-41:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.redrak.app-merged_res-40:/drawable_ic_face.xml.flat",
+        "source": "com.redrak.app-main-41:/drawable/ic_face.xml"
+    },
+    {
+        "merged": "com.redrak.app-merged_res-40:/layout_activity_splash.xml.flat",
+        "source": "com.redrak.app-main-41:/layout/activity_splash.xml"
+    },
+    {
+        "merged": "com.redrak.app-merged_res-40:/layout_fragment_settings.xml.flat",
+        "source": "com.redrak.app-main-41:/layout/fragment_settings.xml"
+    },
+    {
+        "merged": "com.redrak.app-merged_res-40:/xml_backup_rules.xml.flat",
+        "source": "com.redrak.app-main-41:/xml/backup_rules.xml"
+    },
+    {
+        "merged": "com.redrak.app-merged_res-40:/drawable_captured_password_background.xml.flat",
+        "source": "com.redrak.app-main-41:/drawable/captured_password_background.xml"
+    },
+    {
+        "merged": "com.redrak.app-merged_res-40:/drawable_ic_login.xml.flat",
+        "source": "com.redrak.app-main-41:/drawable/ic_login.xml"
+    },
+    {
+        "merged": "com.redrak.app-merged_res-40:/menu_bottom_nav_menu.xml.flat",
+        "source": "com.redrak.app-main-41:/menu/bottom_nav_menu.xml"
+    },
+    {
+        "merged": "com.redrak.app-merged_res-40:/layout_fragment_osint.xml.flat",
+        "source": "com.redrak.app-main-41:/layout/fragment_osint.xml"
+    },
+    {
+        "merged": "com.redrak.app-merged_res-40:/layout_list_item_result.xml.flat",
+        "source": "com.redrak.app-main-41:/layout/list_item_result.xml"
+    },
+    {
+        "merged": "com.redrak.app-merged_res-40:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "com.redrak.app-main-41:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "com.redrak.app-merged_res-40:/drawable_ic_evil_twin.xml.flat",
+        "source": "com.redrak.app-main-41:/drawable/ic_evil_twin.xml"
+    },
+    {
+        "merged": "com.redrak.app-merged_res-40:/layout_fragment_attack_console.xml.flat",
+        "source": "com.redrak.app-main-41:/layout/fragment_attack_console.xml"
+    },
+    {
+        "merged": "com.redrak.app-merged_res-40:/layout_activity_login.xml.flat",
+        "source": "com.redrak.app-main-41:/layout/activity_login.xml"
+    },
+    {
+        "merged": "com.redrak.app-merged_res-40:/drawable_ic_settings.xml.flat",
+        "source": "com.redrak.app-main-41:/drawable/ic_settings.xml"
+    },
+    {
+        "merged": "com.redrak.app-merged_res-40:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "com.redrak.app-main-41:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "com.redrak.app-merged_res-40:/xml_data_extraction_rules.xml.flat",
+        "source": "com.redrak.app-main-41:/xml/data_extraction_rules.xml"
+    },
+    {
+        "merged": "com.redrak.app-merged_res-40:/drawable_ic_tools.xml.flat",
+        "source": "com.redrak.app-main-41:/drawable/ic_tools.xml"
+    },
+    {
+        "merged": "com.redrak.app-merged_res-40:/drawable_ic_network.xml.flat",
+        "source": "com.redrak.app-main-41:/drawable/ic_network.xml"
+    },
+    {
+        "merged": "com.redrak.app-merged_res-40:/drawable_ic_profile_default.xml.flat",
+        "source": "com.redrak.app-main-41:/drawable/ic_profile_default.xml"
+    },
+    {
+        "merged": "com.redrak.app-merged_res-40:/layout_fragment_vision.xml.flat",
+        "source": "com.redrak.app-main-41:/layout/fragment_vision.xml"
+    }
+]

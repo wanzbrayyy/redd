@@ -1,1 +1,38 @@
-[]
+[
+  {
+    "id": "mipn52mc",
+    "name": "wanzofc",
+    "email": "zanssxploit@gmail.com",
+    "password": "Plerr321",
+    "avatar": null,
+    "created": "2025-12-03T06:43:34.404Z"
+  },
+  {
+    "id": null,
+    "name": "awan berlian",
+    "email": "wanzofc.tech@gmail.com",
+    "password": "$2a$08$QWaCDAQLflgwTFBCxUCsQ.DMXdmtaL0I1.mhrlaheXA8uSWBKqgtW",
+    "avatarUrl": "http://68.183.178.199:3000/uploads/null-1764745053964-294766723.jpg"
+  },
+  {
+    "id": null,
+    "name": "Dapaaaaa",
+    "email": "xennshou@gmail.com",
+    "password": "$2a$08$NMpx96suF6IqCbXYfP/pMe6uZxc3kPyXo9Vu0te.NZSfygHfXxp8u",
+    "avatarUrl": null
+  },
+  {
+    "id": null,
+    "name": "gmw",
+    "email": "gmw@gmw.com",
+    "password": "$2a$08$18XdefREKsENzCweH2stUu9D5FKNj1kkfXnUhmz/m0mn1ydOcKRl6",
+    "avatarUrl": null
+  },
+  {
+    "id": null,
+    "name": "gmw",
+    "email": "gmwggg@gmw.com",
+    "password": "$2a$08$SkdEtiWtMS1s5gHDIisvxOd6SAmN8ymkHJgHVXgA74Py0kiqMExNu",
+    "avatarUrl": null
+  }
+]
