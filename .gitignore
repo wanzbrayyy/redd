@@ -1,8 +1,8 @@
 # Android
 android_app/.gradle/
-android_app/app/build/
 android_app/build/
-android_app/local.properties
+android_app/app/build/
+*.hprof
 
 # APK
 *.apk
@@ -11,8 +11,3 @@ android_app/local.properties
 # Node.js
 backend/node_modules/
 npm-debug.log*
-
-# General
-*.bin
-*.zip
-.DS_Store
