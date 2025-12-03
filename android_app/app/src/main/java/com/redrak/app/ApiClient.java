@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 public class ApiClient {
     private static OkHttpClient client;
-    public static final String BASE_URL = "http://68.183.178.199:3000/api";
+    public static final String BASE_URL = "http://MASUKIN IP anda:3000/api";
 
     public static OkHttpClient getClient(Context context) {
         if (client == null) {
