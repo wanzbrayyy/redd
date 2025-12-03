@@ -1,36 +1,32 @@
 package com.redrak.app;
 
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import okhttp3.*;
 import org.json.JSONObject;
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class LoginActivity extends AppCompatActivity {
-    private EditText etEmail;
-    private EditText etPassword;
+    private EditText etEmail, etPassword;
     private Button btnLogin;
-    private TextView tvRegister;
     private ProgressBar progressBar;
-    private ImageView ivLogo;
-
-    private final String BASE = "http://68.183.178.199:3000/api";
-    private final OkHttpClient client = new OkHttpClient.Builder()
-            .connectTimeout(15, TimeUnit.SECONDS)
-            .readTimeout(30, TimeUnit.SECONDS)
-            .build();
+    private OkHttpClient client;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,14 +36,10 @@ public class LoginActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
-        tvRegister = findViewById(R.id.tvRegister);
+        TextView tvRegister = findViewById(R.id.tvRegister);
         progressBar = findViewById(R.id.progress);
-        ivLogo = findViewById(R.id.ivLogo);
-
-        try {
-            Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/Font Awesome 7 Free-Solid-900.otf");
-            ivLogo.setImageDrawable(getResources().getDrawable(R.drawable.ic_logo_redrak));
-        } catch (Exception ignored) {}
+        
+        client = ApiClient.getClient(this);
 
         btnLogin.setOnClickListener(v -> attemptLogin());
         tvRegister.setOnClickListener(v -> startActivity(new Intent(LoginActivity.this, RegisterActivity.class)));
@@ -60,17 +52,16 @@ public class LoginActivity extends AppCompatActivity {
         String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString();
 
-        if (TextUtils.isEmpty(email)) {
-            etEmail.setError("Required");
+        if (TextUtils.isEmpty(email) || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            etEmail.setError("Valid email is required");
             return;
         }
         if (TextUtils.isEmpty(password)) {
-            etPassword.setError("Required");
+            etPassword.setError("Password is required");
             return;
         }
 
-        progressBar.setVisibility(View.VISIBLE);
-        btnLogin.setEnabled(false);
+        setLoading(true);
 
         JSONObject payload = new JSONObject();
         try {
@@ -78,98 +69,55 @@ public class LoginActivity extends AppCompatActivity {
             payload.put("password", password);
         } catch (Exception e) {
             showError("Internal error");
+            setLoading(false);
             return;
         }
 
         RequestBody body = RequestBody.create(payload.toString(), MediaType.parse("application/json"));
-        Request req = new Request.Builder().url(BASE + "/login").post(body).build();
+        Request req = new Request.Builder().url(ApiClient.BASE_URL + "/login").post(body).build();
 
         client.newCall(req).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 runOnUiThread(() -> {
-                    progressBar.setVisibility(View.GONE);
-                    btnLogin.setEnabled(true);
+                    setLoading(false);
                     showError("Network error: " + e.getMessage());
                 });
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                String resp = response.body().string();
+                String respBody = response.body().string();
                 runOnUiThread(() -> {
-                    progressBar.setVisibility(View.GONE);
-                    btnLogin.setEnabled(true);
-
-                    if (!response.isSuccessful()) {
-                        showError("Login failed: " + resp);
-                        return;
-                    }
-
+                    setLoading(false);
                     try {
-                        JSONObject o = new JSONObject(resp);
-                        String token = o.optString("token", null);
-                        JSONObject profile = o.optJSONObject("profile");
-
-                        if (token == null || profile == null) {
-                            showError("Invalid response");
+                        JSONObject o = new JSONObject(respBody);
+                        if (!response.isSuccessful()) {
+                            showError(o.optString("message", "Login failed"));
                             return;
                         }
+                        
+                        String token = o.optString("token");
+                        JSONObject profile = o.optJSONObject("profile");
+                        AppStore.getInstance(LoginActivity.this).setToken(token);
+                        AppStore.getInstance(LoginActivity.this).setProfile(profile.toString());
 
-                        AppStore.getInstance().setToken(token);
-                        AppStore.getInstance().setProfile(profile.toString());
-
-                        Intent it = new Intent(LoginActivity.this, DashboardActivity.class);
-                        startActivity(it);
+                        startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
                         finish();
-
                     } catch (Exception e) {
-                        showError("Parse error");
+                        showError("Failed to parse server response.");
                     }
                 });
             }
         });
     }
-
-    private void showError(String s) {
-        Toast.makeText(this, s, Toast.LENGTH_LONG).show();
+    
+    private void setLoading(boolean isLoading) {
+        progressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+        btnLogin.setEnabled(!isLoading);
     }
 
-    // helper methods
-    private String repeat(String s, int n){
-        StringBuilder sb = new StringBuilder();
-        for(int i=0;i<n;i++) sb.append(s);
-        return sb.toString();
-    }
-
-    private int sumRange(int a,int b){
-        int s=0;
-        for(int i=a;i<=b;i++) s+=i;
-        return s;
-    }
-
-    private boolean validateEmailFormat(String e){
-        if(e==null) return false;
-        return e.contains("@") && e.contains(".");
-    }
-
-    private String dummyMethodOne(){
-        return repeat("x",1000).substring(0,100);
-    }
-
-    private String dummyMethodTwo(){
-        return repeat("y",2000).substring(0,200);
-    }
-
-    private String complexBuilder(){
-        StringBuilder sb=new StringBuilder();
-        for(int i=0;i<50;i++){ sb.append(i).append("-"); }
-        return sb.toString();
-    }
-
-    private String longHelpText(){
-        StringBuilder sb=new StringBuilder();
-        for(int i=0;i<200;i++) sb.append("line ").append(i).append("\n");
-        return sb.toString();
+    private void showError(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 }

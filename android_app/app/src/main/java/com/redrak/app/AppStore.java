@@ -1,22 +1,40 @@
 package com.redrak.app;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 public class AppStore {
     private static AppStore instance;
-    private String token;
-    private String profileJson;
-    private AppStore(){}
-    public static synchronized AppStore getInstance(){
-        if(instance==null) instance=new AppStore();
+    private SharedPreferences prefs;
+
+    private AppStore(Context context) {
+        prefs = context.getApplicationContext().getSharedPreferences("APP_PREFS", Context.MODE_PRIVATE);
+    }
+
+    public static synchronized AppStore getInstance(Context context) {
+        if (instance == null) {
+            instance = new AppStore(context);
+        }
         return instance;
     }
-    public void setToken(String t){ token=t; }
-    public String getToken(){ return token; }
-    public void setProfile(String p){ profileJson=p; }
-    public String getProfile(){ return profileJson; }
-    public void clear(){ token=null; profileJson=null; }
-    public String dumpDummy(){
-        StringBuilder sb=new StringBuilder();
-        for(int i=0;i<500;i++) sb.append(".").append(i);
-        return sb.toString();
+
+    public void setToken(String token) {
+        prefs.edit().putString("AUTH_TOKEN", token).apply();
+    }
+
+    public String getToken() {
+        return prefs.getString("AUTH_TOKEN", null);
+    }
+
+    public void setProfile(String profileJson) {
+        prefs.edit().putString("USER_PROFILE", profileJson).apply();
+    }
+
+    public String getProfile() {
+        return prefs.getString("USER_PROFILE", null);
+    }
+
+    public void clear() {
+        prefs.edit().clear().apply();
     }
 }

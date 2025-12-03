@@ -1,95 +1,155 @@
-
 const express = require('express');
-const bodyParser = require('body-parser');
-const jwt = require('jsonwebtoken');
 const cors = require('cors');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
+
 const app = express();
-app.use(bodyParser.json());
-app.use(cors());
 const PORT = 3000;
-const SECRET = "redrak-secret-key-please-change";
-let usersFile = path.join(__dirname, 'users.json');
-function loadUsers(){
-    try {
-        let raw = fs.readFileSync(usersFile,'utf8');
-        return JSON.parse(raw);
-    } catch(e){ return []; }
+const JWT_SECRET = 'your-super-secret-key-change-this';
+const USERS_DB_PATH = path.join(__dirname, 'users.json');
+const UPLOADS_DIR = path.join(__dirname, 'uploads');
+
+if (!fs.existsSync(UPLOADS_DIR)) {
+    fs.mkdirSync(UPLOADS_DIR);
 }
-function saveUsers(users){
-    fs.writeFileSync(usersFile, JSON.stringify(users, null, 2), 'utf8');
-}
-if(!fs.existsSync(usersFile)) saveUsers([]);
 
-app.get('/', (req,res)=> res.json({ok:true, msg:"RedRak API"}));
+app.use(cors());
+app.use(express.json());
+app.use('/uploads', express.static(UPLOADS_DIR));
 
-app.post('/api/register', (req,res)=>{
-    let {name, email, password} = req.body || {};
-    if(!email || !password || !name) return res.status(400).json({error:"missing"});
-    let users = loadUsers();
-    let exists = users.find(u=>u.email===email);
-    if(exists) return res.status(409).json({error:"exists"});
-    let id = Date.now().toString(36);
-    let user = {id, name, email, password, avatar:null, created: new Date().toISOString()};
-    users.push(user);
-    saveUsers(users);
-    let token = jwt.sign({id:user.id,email:user.email}, SECRET, {expiresIn:'30d'});
-    res.json({token, profile:{id:user.id,name:user.name,email:user.email,avatar:user.avatar}});
+const readUsers = () => {
+    if (!fs.existsSync(USERS_DB_PATH)) {
+        return [];
+    }
+    const data = fs.readFileSync(USERS_DB_PATH);
+    return JSON.parse(data);
+};
+
+const writeUsers = (users) => {
+    fs.writeFileSync(USERS_DB_PATH, JSON.stringify(users, null, 2));
+};
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, UPLOADS_DIR);
+    },
+    filename: (req, file, cb) => {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        cb(null, req.user.id + '-' + uniqueSuffix + path.extname(file.originalname));
+    }
 });
 
-app.post('/api/login', (req,res)=>{
-    let {email,password} = req.body || {};
-    if(!email||!password) return res.status(400).json({error:"missing"});
-    let users = loadUsers();
-    let user = users.find(u=>u.email===email && u.password===password);
-    if(!user) return res.status(401).json({error:"invalid"});
-    let token = jwt.sign({id:user.id,email:user.email}, SECRET, {expiresIn:'30d'});
-    res.json({token, profile:{id:user.id,name:user.name,email:user.email,avatar:user.avatar}});
-});
+const upload = multer({ storage: storage });
 
-app.get('/api/profile', (req,res)=>{
-    let auth = req.headers['authorization']||'';
-    if(!auth.startsWith('Bearer ')) return res.status(401).json({error:"noauth"});
-    let token = auth.slice(7);
+const authMiddleware = (req, res, next) => {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return res.status(401).json({ message: 'Authorization token required' });
+    }
+    const token = authHeader.split(' ')[1];
     try {
-        let payload = jwt.verify(token, SECRET);
-        let users = loadUsers();
-        let user = users.find(u=>u.id===payload.id);
-        if(!user) return res.status(404).json({error:"notfound"});
-        res.json({id:user.id,name:user.name,email:user.email,avatar:user.avatar});
-    } catch(e) { res.status(401).json({error:"invalid"}); }
+        const decoded = jwt.verify(token, JWT_SECRET);
+        req.user = decoded;
+        next();
+    } catch (error) {
+        return res.status(401).json({ message: 'Invalid or expired token' });
+    }
+};
+
+app.post('/api/register', (req, res) => {
+    const { name, email, password } = req.body;
+    if (!name || !email || !password) {
+        return res.status(400).json({ message: 'Name, email, and password are required' });
+    }
+
+    const users = readUsers();
+    if (users.find(u => u.email === email)) {
+        return res.status(409).json({ message: 'Email already registered' });
+    }
+
+    const hashedPassword = bcrypt.hashSync(password, 8);
+    const newUser = {
+        id: users.length > 0 ? Math.max(...users.map(u => u.id)) + 1 : 1,
+        name,
+        email,
+        password: hashedPassword,
+        avatarUrl: null
+    };
+    users.push(newUser);
+    writeUsers(users);
+
+    const token = jwt.sign({ id: newUser.id, email: newUser.email }, JWT_SECRET, { expiresIn: '24h' });
+    const { password: _, ...profile } = newUser;
+    res.status(201).json({ token, profile });
 });
 
-const multer = require('multer');
-const upload = multer({ dest: path.join(__dirname,'uploads') });
-app.post('/api/upload-avatar', upload.single('avatar'), (req,res)=>{
-    let auth = req.headers['authorization']||'';
-    if(!auth.startsWith('Bearer ')) return res.status(401).json({error:"noauth"});
-    let token = auth.slice(7);
-    try {
-        let payload = jwt.verify(token, SECRET);
-        let users = loadUsers();
-        let user = users.find(u=>u.id===payload.id);
-        if(!user) return res.status(404).json({error:"notfound"});
-        if(!req.file) return res.status(400).json({error:"nofile"});
-        let newPath = path.join(__dirname,'uploads', payload.id + path.extname(req.file.originalname || req.file.filename));
-        fs.renameSync(req.file.path, newPath);
-        user.avatar = '/uploads/' + path.basename(newPath);
-        saveUsers(users);
-        res.json({ok:true,avatar:user.avatar});
-    } catch(e){ res.status(401).json({error:"invalid"}); }
+app.post('/api/login', (req, res) => {
+    const { email, password } = req.body;
+    if (!email || !password) {
+        return res.status(400).json({ message: 'Email and password are required' });
+    }
+
+    const users = readUsers();
+    const user = users.find(u => u.email === email);
+    if (!user || !bcrypt.compareSync(password, user.password)) {
+        return res.status(401).json({ message: 'Invalid email or password' });
+    }
+
+    const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, { expiresIn: '24h' });
+    const { password: _, ...profile } = user;
+    res.status(200).json({ token, profile });
 });
 
-app.get('/uploads/:file', (req,res)=>{
-    let p = path.join(__dirname,'uploads', req.params.file);
-    if(fs.existsSync(p)) res.sendFile(p);
-    else res.status(404).send('Not found');
+app.get('/api/profile', authMiddleware, (req, res) => {
+    const users = readUsers();
+    const user = users.find(u => u.id === req.user.id);
+    if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+    }
+    const { password: _, ...profile } = user;
+    res.status(200).json(profile);
 });
 
-app.get('/api/_list_users', (req,res)=>{
-    let users = loadUsers();
-    res.json(users.map(u=>({id:u.id,name:u.name,email:u.email,avatar:u.avatar,created:u.created})));
+app.put('/api/profile', authMiddleware, (req, res) => {
+    const { name } = req.body;
+    if (!name) {
+        return res.status(400).json({ message: 'Name is required' });
+    }
+
+    let users = readUsers();
+    const userIndex = users.findIndex(u => u.id === req.user.id);
+    if (userIndex === -1) {
+        return res.status(404).json({ message: 'User not found' });
+    }
+
+    users[userIndex].name = name;
+    writeUsers(users);
+    
+    const { password: _, ...updatedProfile } = users[userIndex];
+    res.status(200).json({ message: 'Profile updated successfully', profile: updatedProfile });
 });
 
-app.listen(PORT, ()=> console.log("RedRak API running on port",PORT));
+app.post('/api/profile/avatar', authMiddleware, upload.single('avatar'), (req, res) => {
+    if (!req.file) {
+        return res.status(400).json({ message: 'No file uploaded' });
+    }
+    
+    let users = readUsers();
+    const userIndex = users.findIndex(u => u.id === req.user.id);
+    if (userIndex === -1) {
+        return res.status(404).json({ message: 'User not found' });
+    }
+
+    const avatarUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+    users[userIndex].avatarUrl = avatarUrl;
+    writeUsers(users);
+
+    res.status(200).json({ message: 'Avatar uploaded successfully', avatarUrl });
+});
+
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+});
