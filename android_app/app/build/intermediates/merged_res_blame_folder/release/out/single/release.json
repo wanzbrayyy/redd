@@ -1,0 +1,22 @@
+[
+    {
+        "merged": "com.redrak.app-merged_res-31:/layout_activity_dashboard.xml.flat",
+        "source": "com.redrak.app-main-32:/layout/activity_dashboard.xml"
+    },
+    {
+        "merged": "com.redrak.app-merged_res-31:/layout_activity_register.xml.flat",
+        "source": "com.redrak.app-main-32:/layout/activity_register.xml"
+    },
+    {
+        "merged": "com.redrak.app-merged_res-31:/drawable_ic_profile_default.png.flat",
+        "source": "com.redrak.app-main-32:/drawable/ic_profile_default.png"
+    },
+    {
+        "merged": "com.redrak.app-merged_res-31:/drawable_ic_logo_redrak.png.flat",
+        "source": "com.redrak.app-main-32:/drawable/ic_logo_redrak.png"
+    },
+    {
+        "merged": "com.redrak.app-merged_res-31:/layout_activity_login.xml.flat",
+        "source": "com.redrak.app-main-32:/layout/activity_login.xml"
+    }
+]
