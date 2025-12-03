@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<data-extraction-rules>
-    <cloud-backup>
-        <!-- TODO: Add rules for files and directories that you want to back up.
-             For more info, see https://developer.android.com/guide/topics/data/autobackup -->
-    </cloud-backup>
-</data-extraction-rules>
