@@ -17,7 +17,7 @@ const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
 const PORT = 3000;
-const JWT_SECRET = 'your-super-secret-key-change-this';
+const JWT_SECRET = 'wanzofccontohbebasi';
 const LEAKOSINT_API_TOKEN = '7341190291:PskyuyED';
 const EDENAI_API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMGQ5YmYzMzAtYzAyNS00NTM4LThlZGYtYzQxMDkxODBjMGU1IiwidHlwZSI6InNhbmRib3hfYXBpX3Rva2VuIn0.FmmXc_Fec46CbqfCPemxBB3UVVcTIWPhsfnlprwS2h8';
 const USERS_DB_PATH = path.join(__dirname, 'users.json');
