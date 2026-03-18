@@ -1,24 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
-    android:padding="16dp">
-
-    <Button
-        android:id="@+id/btnScanQr"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Scan QR Code (WiFi, URL, etc)" />
+    android:padding="16dp"
+    android:background="#121212">
 
     <TextView
-        android:id="@+id/tvQrResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GitHub Repository Downloader"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp"/>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:gravity="center"
-        android:padding="8dp"
-        android:text="QR Scan result will appear here"
-        android:textIsSelectable="true"/>
+        android:layout_marginBottom="16dp"
+        app:boxBackgroundColor="#1E1E1E"
+        android:textColorHint="#AAAAAA">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etGithubUrl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:hint="https://github.com/user/repo"
+            android:inputType="textUri"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnDownloadGithub"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Download Source Code"
+        app:icon="@android:drawable/stat_sys_download"/>
+
+    <ProgressBar
+        android:id="@+id/progressTools"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:layout_marginTop="16dp"/>
+
+    <TextView
+        android:id="@+id/tvToolsStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textColor="#00FF00"
+        android:textSize="14sp"
+        android:textAlignment="center"/>
 
 </LinearLayout>

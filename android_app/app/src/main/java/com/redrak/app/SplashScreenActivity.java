@@ -9,21 +9,22 @@ import androidx.appcompat.app.AppCompatActivity;
 
 @SuppressLint("CustomSplashScreen")
 public class SplashScreenActivity extends AppCompatActivity {
-@Override
-protected void onCreate(Bundle savedInstanceState) {
-super.onCreate(savedInstanceState);
-setContentView(R.layout.activity_splash);
-new Handler(Looper.getMainLooper()).postDelayed(() -> {
-        String token = AppStore.getInstance(this).getToken();
-        Intent intent;
-        if (token == null) {
-            intent = new Intent(SplashScreenActivity.this, LoginActivity.class);
-        } else {
-            intent = new Intent(SplashScreenActivity.this, MainActivity.class);
-        }
-        startActivity(intent);
-        finish();
-    }, 1500);
-}
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_splash);
 
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            String token = AppStore.getInstance(this).getToken();
+            Intent intent;
+            if (token == null) {
+                intent = new Intent(SplashScreenActivity.this, LoginActivity.class);
+            } else {
+                intent = new Intent(SplashScreenActivity.this, MainActivity.class);
+            }
+            startActivity(intent);
+            finish();
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        }, 2500);
+    }
 }
